@@ -1,0 +1,169 @@
+::$Id: publicInterface.txt,v 1.18 2002/12/12 21:00:44 leed Exp $::
+
+the general form of a HOF request is:
+
+    http://pws.affero.net/hof/<request>[?<url-args>
+
+
+where: ====== <request> is one of 'doc', 'topBeneficiaries',
+                     'membBen', 'topPatrons', or 'topVolunteers'
+
+    <url-args> are described below.
+
+------------------------------------------------------------------------
+requests:
+=========
+
+    doc     ===========> return this ocumentation.  this request takes no
+                     arguments.  if supplied, they are ignored
+
+    --------------------------------------------------------------------
+
+
+    topBeneficiaries ==> return a list of beneficiaries and,
+                     associated with each, a count of the number of
+                     contributors over the time period.
+
+       valid arguments:  "lim=", "type="
+
+    --------------------------------------------------------------------
+
+
+    membBen =========> member beneficiaries.  Daisplay a table of
+                     beneficiaries associated with an affero member.
+
+       valid arguments: "v=", "p=", "la=", "lf=", "from=", "to=", "lim=")
+
+           v= a volunteer member affero user id
+           p= a patrom member user id
+
+       at least one of p= or v= must be set to a existing, active
+       affero member name.  if the member name is not valid then the
+       table returned will be the same as if the 'topBeneficiaries'
+       service had been requested.  if both of p= and v= are set then
+       p= is dropped
+
+    --------------------------------------------------------------------
+
+    topPatrons ========> return a list of members who have given
+                     donations and a total sum of the amount donated.
+                     note that patrons who have their gift history to
+                     'private' will not be included in this output.
+
+       valid arguments: "la=", "lf=", "tc=", "from=", "to=", "lim=", "type="
+
+           tc= set to one of {"count"|"donations"}
+
+               "count" will return a table of the total number of
+                        members who have been rated by this patron.
+                        If tc=count is given then lf= will be ignored if
+                        present.
+
+               "donations" (the default) will return a sum of the
+                        donations given by this member
+
+    --------------------------------------------------------------------
+
+   topVolunteers  ====> return a list of members who have inspired
+                     contributions and the amounts contributed on
+                     their behalves(?)
+
+       valid argumnts: "la", "lf", "rf", "tc", "from", "to", "lim", "type"
+
+
+           tc= set to one of {"values"|"count"|"donations"}
+
+               "values" will return a table of averaged ratings by member
+
+               "count" will returna table of the total number of
+                        members who have rated that volunteer
+
+               "donations" (the default) will return a sum of the
+                        donations given or inspired by each member
+
+           rf= rating filter.  set to "text" to consider only those
+               ratings which have a text comment associated with them.
+
+------------------------------------------------------------------------
+URL args not described above:
+=============================
+
+
+    from ==> starting date for the request
+
+    to   ==> ending date for the request
+
+    la   ==> list arguments.  the request will only be filled for the
+         given collection of mailing lists.  this argument is ignored
+         for the topBeneficiaries request. wildcard globbing '*' can
+         be used (see examples).
+
+    lf   ==> list foundations.  the request will only be filled for the
+         given collection of oundations.  this argument is ignored
+         for the topBeneficiaries request. wildcard globbing '*' can
+         be used (see examples).
+
+    lim  ==> limit the number of entries returned
+
+    type ==> "html" or "xml" either the results will be returned as an
+         HTML table which is suitable for use as, for instance, a php
+         include or as an apache XSSI, or the results will be returned
+         as well-formed XML.
+
+
+default values:
+===============
+    from=  defaults to "2 months ago"
+    to=    defaults to "today"
+    la=    defaults to "all"
+    lf=    defaults to "all"
+    tc=    defaults to "donations"
+    rf=    defaults to "all"
+    lim=   defaults to 10
+    type=  defaults to "html"
+
+    note: all values must be url-escaped.
+
+
+examples
+========
+
+HOF requests are served from pws.affero.net.  So here are some
+examples of valid requests --which, for purposes of presentation, do
+not have their url arguments escaoped-- along with descriptions of the
+output:
+
+
+    example 1--> http://pws.affero.net/hof/topPatrons
+
+        this request will return the most active patrons over the last
+        two months.  the table will have at most 10 (the default) rows
+
+
+    example 2--> http://pws.affero.net/hof/topVolunteers?from=yesterday&lim=5
+
+        this request will return the most active volunteers since
+        yesterday.  the table will have at most 5 rows.
+
+
+    example 3--> http://pws.affero.net/hof/topPatrons?la=lq*g*
+
+        this request will return the most active patrons from forums
+        starting with 'lq' that have a 'g' in their names.  results
+        will be extracted from data collected over the last two
+        months.  the table will have at most 10 (the default) rows
+
+    example 4--> http://pws.affero.net/hof/topPatrons?lf=*FSF*
+
+        this request will return the most active patrons who have
+        donated to foundations with FSF in their names.  results will
+        be extracted from data collected over the last two months.
+        the table will have at most 10 (the default) rows
+
+    example 5--> http://pws.affero.net/hof/membBen?v=poole
+
+        this request will return a table of the foundations who have
+        received contributions as a result of affero member poole's
+        donations along with the amounts raised.  the table will have
+        at most 10 (the default) rows
+

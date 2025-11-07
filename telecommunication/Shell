@@ -1,0 +1,1 @@
+cargo run --bin zksync_verifier_contract_generator --release -- --input_path data/scheduler_key.json --output_path ../ethereum/contracts/zksync/Verifier.so
