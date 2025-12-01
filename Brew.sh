@@ -1,4 +1,4 @@
-
+bisect-ppx-report html --coverage-path _build/default
 # Install OCaml dependencies
 make deps
 
