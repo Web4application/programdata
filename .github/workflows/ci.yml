@@ -1,0 +1,43 @@
+name: Dullo CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Set up OCaml
+      uses: avsm/setup-ocaml@v1
+      with:
+        ocaml-version: '5.1.0'  # Minimum version
+
+    - name: Install opam dependencies
+      run: |
+        opam update
+        opam install . --deps-only -y
+
+    - name: Build all executables
+      run: dune build @all
+
+    - name: Run tests
+      run: dune runtest
+
+    - name: Generate coverage report
+      run: |
+        dune runtest --instrument-with bisect_ppx
+        bisect-ppx-report html --coverage-path _build/default
+      continue-on-error: true
+
+    - name: Upload coverage artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: dullo-coverage
+        path: _build/default/bisect*.out
