@@ -1,2 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension=".json" ContentType="application/json"/><Default Extension=".vsixmanifest" ContentType="text/xml"/><Default Extension=".md" ContentType="text/markdown"/><Default Extension=".js" ContentType="application/javascript"/><Default Extension=".txt" ContentType="text/plain"/><Default Extension=".rules" ContentType="application/octet-stream"/><Default Extension=".yaml" ContentType="text/yaml"/><Default Extension=".env" ContentType="application/octet-stream"/><Default Extension=".gql" ContentType="application/octet-stream"/><Default Extension=".py" ContentType="application/octet-stream"/><Default Extension=".html" ContentType="text/html"/><Default Extension=".css" ContentType="text/css"/><Default Extension=".csv" ContentType="text/csv"/><Default Extension=".svg" ContentType="image/svg+xml"/><Default Extension=".ttf" ContentType="font/ttf"/><Default Extension=".png" ContentType="image/png"/><Default Extension=".woff2" ContentType="font/woff2"/><Default Extension=".woff" ContentType="font/woff"/></Types>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+
+  <!-- =========================== -->
+  <!-- Code & configuration files -->
+  <!-- =========================== -->
+  <Default Extension=".js" ContentType="application/javascript"/>
+  <Default Extension=".ts" ContentType="application/typescript"/>
+  <Default Extension=".json" ContentType="application/json"/>
+  <Default Extension=".json5" ContentType="application/json"/>
+  <Default Extension=".gql" ContentType="application/octet-stream"/>
+  <Default Extension=".env" ContentType="application/octet-stream"/>
+  <Default Extension=".yaml" ContentType="text/yaml"/>
+  <Default Extension=".md" ContentType="text/markdown"/>
+  <Default Extension=".mkd" ContentType="text/markdown"/>
+  <Default Extension=".rules" ContentType="application/octet-stream"/>
+  <Default Extension=".txt" ContentType="text/plain"/>
+  <Default Extension=".rst" ContentType="text/x-rst"/>
+
+  <!-- =========================== -->
+  <!-- Web / markup -->
+  <!-- =========================== -->
+  <Default Extension=".html" ContentType="text/html"/>
+  <Default Extension=".css" ContentType="text/css"/>
+  <Default Extension=".csv" ContentType="text/csv"/>
+
+  <!-- =========================== -->
+  <!-- Images -->
+  <!-- =========================== -->
+  <Default Extension=".png" ContentType="image/png"/>
+  <Default Extension=".svg" ContentType="image/svg+xml"/>
+  <Default Extension=".webp" ContentType="image/webp"/>
+
+  <!-- =========================== -->
+  <!-- Fonts -->
+  <!-- =========================== -->
+  <Default Extension=".ttf" ContentType="font/ttf"/>
+  <Default Extension=".woff" ContentType="font/woff"/>
+  <Default Extension=".woff2" ContentType="font/woff2"/>
+
+  <!-- =========================== -->
+  <!-- Office / Excel -->
+  <!-- =========================== -->
+  <Default Extension=".xlsm" ContentType="application/vnd.ms-excel.sheet.macroEnabled.12"/>
+  <Default Extension=".xlsx" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+  <Default Extension=".xlsl" ContentType="application/octet-stream"/>
+
+  <!-- =========================== -->
+  <!-- VS Code / package -->
+  <!-- =========================== -->
+  <Default Extension=".vsixmanifest" ContentType="text/xml"/>
+
+  <!-- =========================== -->
+  <!-- Custom / project-specific -->
+  <!-- =========================== -->
+  <Default Extension=".khml" ContentType="application/octet-stream"/>
+  <Default Extension=".sctm" ContentType="application/octet-stream"/>
+  <Default Extension=".aura" ContentType="application/octet-stream"/>
+  <Default Extension=".berry" ContentType="application/octet-stream"/>
+
+  <!-- =========================== -->
+  <!-- Math / AI / ML / data -->
+  <!-- =========================== -->
+  <Default Extension=".math" ContentType="application/octet-stream"/>
+  <Default Extension=".ser" ContentType="application/octet-stream"/>
+  <Default Extension=".r" ContentType="application/octet-stream"/>
+  <Default Extension=".ml" ContentType="application/octet-stream"/>
+  <Default Extension=".mli" ContentType="application/octet-stream"/>
+  <Default Extension=".mkd" ContentType="text/markdown"/>
+
+  <!-- =========================== -->
+  <!-- Database / new project extensions -->
+  <!-- =========================== -->
+  <Default Extension=".nix" ContentType="application/octet-stream"/>
+  <Default Extension=".nex" ContentType="application/octet-stream"/>
+
+  <!-- =========================== -->
+  <!-- FUTURE / DYNAMIC EXTENSIONS -->
+  <!-- =========================== -->
+  <!--
+       Add any new extensions below. This section allows your package
+       to grow without touching the main XML list.
+       Format:
+       <Default Extension=".yournewext" ContentType="application/octet-stream"/>
+  -->
+  <Default Extension=".aura1" ContentType="application/octet-stream"/>
+  <Default Extension=".aura2" ContentType="application/octet-stream"/>
+  <Default Extension=".sctm2" ContentType="application/octet-stream"/>
+  <Default Extension=".khml2" ContentType="application/octet-stream"/>
+
+</Types>
