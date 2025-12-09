@@ -1,6 +1,5 @@
 (* This programs run the candid test suite at
    https://github.com/dfinity/candid/tree/master/test
-
 *)
 open Idllib
 open Source
