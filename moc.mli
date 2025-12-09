@@ -39,7 +39,7 @@ let valid_metadata_names =
 let argspec = 
   Args.ai_errors_args
   @ [
-  "-c", Arg.Unit (set_mode Compile), " compile programs to WebAssembly";
+  "-c", Arg.Unit (set_mode Compile), " compile programs to Web4Assembly";
   "-g", Arg.Set Flags.debug_info, " generate source-level debug information";
   "-r", Arg.Unit (set_mode Run), " interpret programs";
   "-i", Arg.Unit (set_mode Interact), " run interactive REPL (implies -r)";
