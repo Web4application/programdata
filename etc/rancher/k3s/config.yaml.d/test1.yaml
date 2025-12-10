@@ -1,0 +1,8 @@
+write-kubeconfig-mode: 777
+token: boop
+node-label:
+  - other=what
+  - foo=three
+node-taint:
+  - alice=bob:NoExecute
+  - charlie=delta:NoSchedule
