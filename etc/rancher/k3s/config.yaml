@@ -5,3 +5,7 @@ node-label:
   - "foo=bar"
   - "something=amazing"
 cluster-init: true
+token: boop
+node-label:
+  - foo=bar
+  - bar=baz
