@@ -1,80 +1,74 @@
+import { runAI } from "./ai.js";
+import { json, cors } from "./utils.js";
+
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // CORS (Universal)
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "*",
-    };
+    if (request.method === "OPTIONS")
+      return new Response("OK", { headers: cors });
 
-    if (request.method === "OPTIONS") {
-      return new Response("OK", { headers: corsHeaders });
-    }
-
-    // Home Page (HTML)
+    // HOME
     if (path === "/") {
-      return new Response(`
-        <html>
-          <head>
-            <title>Web4-AI API</title>
-            <style>
-              body { font-family: system-ui; padding: 40px; }
-              h1 { color: #1a1a1a; }
-              code { background: #f1f1f1; padding: 4px; }
-            </style>
-          </head>
-          <body>
-            <h1>🔥 Web4-AI Cloudflare Worker</h1>
-            <p>Welcome to your AI API gateway. Try:</p>
-
-            <ul>
-              <li><code>/api</code></li>
-              <li><code>/analyze?text=Hello</code></li>
-              <li><code>/ai</code> (POST JSON)</li>
-            </ul>
-
-            <p>Powered by: <strong>${env.APP_NAME}</strong></p>
-          </body>
-        </html>
-      `, { headers: { "Content-Type": "text/html", ...corsHeaders }});
+      return new Response(
+        `<h1>🔥 Web4AI — Cloudflare AI Backend Online</h1>`,
+        { headers: { "Content-Type": "text/html", ...cors } }
+      );
     }
 
-    // Basic API endpoint
-    if (path === "/api") {
-      return Response.json({
-        status: "ok",
-        project: env.APP_NAME,
-        message: "Web4-AI Worker is running perfectly",
-      }, { headers: corsHeaders });
+    // CHAT API
+    if (path === "/chat") {
+      const { msg } = await request.json();
+      const reply = await runAI(msg, env);
+      return json({ reply });
     }
 
-    // Text analysis endpoint
+    // STREAMING CHAT
+    if (path === "/chat/stream") {
+      const { msg } = await request.json();
+      const stream = await runAI(msg, env, true);
+
+      return new Response(stream, {
+        headers: {
+          ...cors,
+          "Content-Type": "text/event-stream",
+        },
+      });
+    }
+
+    // SUMMARY
+    if (path === "/summarize") {
+      const { text } = await request.json();
+      const reply = await runAI(`Summarize:\n${text}`, env);
+      return json({ summary: reply });
+    }
+
+    // DOCUMENT GENERATION
+    if (path === "/docgen") {
+      const { topic } = await request.json();
+      const doc = await runAI(`Create a well-structured document about ${topic}`, env);
+      return json({ document: doc });
+    }
+
+    // TEXT ANALYSIS
     if (path === "/analyze") {
-      const text = url.searchParams.get("text") || "";
-      return Response.json({
-        text,
-        length: text.length,
-        uppercase: text.toUpperCase(),
-      }, { headers: corsHeaders });
+      const { text } = await request.json();
+      const out = await runAI(`Analyze this text deeply:\n${text}`, env);
+      return json({ analysis: out });
     }
 
-    // AI endpoint (placeholder)
-    if (path === "/ai") {
-      const body = await request.json().catch(() => ({}));
-      return Response.json({
-        input: body,
-        reply: "AI module connected successfully",
-        status: "ready",
-      }, { headers: corsHeaders });
+    // SCRIPT ANALYZER ENDPOINT
+    if (path === "/dependencies") {
+      const { code } = await request.json();
+      const reply = await runAI(
+        `Analyze JS dependencies and execution order:\n${code}`,
+        env
+      );
+      return json({ dependencies: reply });
     }
 
     // 404
-    return new Response("Not Found", {
-      status: 404,
-      headers: corsHeaders,
-    });
-  }
+    return json({ error: "Not Found" }, 404);
+  },
 };
