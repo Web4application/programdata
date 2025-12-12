@@ -1,5 +1,5 @@
 async function run(model, input) {
-  const response = await fetch(
+  const response = await fetch( 
     `https://api.cloudflare.com/client/v4/accounts/3c2d8a9226729b067992b8515d7c2a75/ai/run/${model}`,
     {
       headers: { Authorization: "Bearer aVZM8HSx1lrFNqUj7Zmo_3ZkAMUwxjuI4QUHcStS" },
