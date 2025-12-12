@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>programdata Repo Map</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f7f7f7;
+    margin: 0; padding: 0;
+  }
+  h1 { text-align: center; margin: 1rem 0; }
+  ul { list-style-type: none; padding-left: 1.5rem; }
+  li { cursor: pointer; margin: 0.3rem 0; }
+  li.folder::before { content: "📂 "; }
+  li.file::before { content: "📄 "; }
+  .children { display: none; }
+  .active > .children { display: block; }
+  .exe-tag { background: #4caf50; color: white; padding: 0 0.3rem; border-radius: 3px; margin-left: 0.3rem; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<h1>programdata Repo Map</h1>
+
+<ul id="repoTree">
+  <li class="folder">Dullo
+    <ul class="children">
+      <li class="file">moc.ml <span class="exe-tag">moc</span></li>
+      <li class="file">mo_ld.ml <span class="exe-tag">mo_ld</span></li>
+      <li class="file">mo_doc.ml <span class="exe-tag">mo_doc</span></li>
+      <li class="file">didc.ml <span class="exe-tag">didc</span></li>
+      <li class="file">deser.ml <span class="exe-tag">deser</span></li>
+      <li class="file">candid_tests.ml <span class="exe-tag">candid_tests</span></li>
+      <li class="file">dune</li>
+    </ul>
+  </li>
+  <li class="folder">scripts
+    <ul class="children">
+      <li class="file">generate_dune.py</li>
+      <li class="file">build.sh</li>
+      <li class="file">deploy.sh</li>
+    </ul>
+  </li>
+  <li class="folder">lib</li>
+  <li class="folder">modules</li>
+  <li class="folder">data</li>
+  <li class="file">docker-compose.yml</li>
+  <li class="file">README.md</li>
+  <li class="file">.gitattributes</li>
+  <li class="file">.guix-system-vm-image-1.4.0.x86_64-linux.qcow2.sig.cpp</li>
+</ul>
+
+<script>
+document.querySelectorAll('li.folder').forEach(folder => {
+  folder.addEventListener('click', e => {
+    e.stopPropagation();
+    folder.classList.toggle('active');
+  });
+});
+</script>
+
+</body>
+</html>
