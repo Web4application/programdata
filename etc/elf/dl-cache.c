@@ -4,7 +4,7 @@ precedence over RUNPATH.
 
 diff --git a/elf/dl-cache.c b/elf/dl-cache.c
 index 93d185e788..e0760a1f40 100644
---- a/elf/dl-cache.c
+--- a/elf/dl-cache.c 
 +++ b/elf/dl-cache.c
 @@ -171,6 +171,51 @@ _dl_cache_libcmp (const char *p1, const char *p2)
    return *p1 - *p2;
