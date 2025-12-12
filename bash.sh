@@ -1,3 +1,17 @@
+git clone https://github.com/Web4application/programdata.git
+cd programdata
+
+# Install dune & bisect_ppx
+opam install dune bisect_ppx
+# Build all executables
+dune build @all
+# Run tests
+dune runtest
+
+# Full folder tree
+tree -L 3
+# Search for main executables
+find . -type f -name "*.ml"
 curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server" sh -s - --flannel-backend none
 curl -sfL https://get.k3s.io | sh - 
 # Check for Ready node, takes ~30 seconds 
