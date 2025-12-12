@@ -1,0 +1,14 @@
+name = "web4-ai"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# For your API routes
+route = { pattern = "web4-ai.web4app.workers.dev/*", zone_name = "web4app.workers.dev" }
+
+[vars]
+APP_NAME = "Web4AI"
+ENV = "production"
+
+[observability]
+enabled = true
+head_sampling_rate = 1.0
