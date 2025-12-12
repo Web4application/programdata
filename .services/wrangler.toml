@@ -1,0 +1,19 @@
+name = "web4-ai"
+main = "index.js"
+compatibility_date = "2024-11-20"
+
+assets = { binding = "ASSETS", directory = "./public" }
+
+[vars]
+ENV = "production"
+
+[env.production.vars]
+ENV = "production"
+
+[env.production]
+kv_namespaces = [
+  { binding = "WEB4_KV", id = "xxxxxxx" }
+]
+
+[env.production.r2_buckets]
+WEB4_BUCKET = { bucket_name = "web4-storage" }
