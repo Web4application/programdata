@@ -1,6 +1,9 @@
 git clone https://github.com/Web4application/programdata.git
 cd programdata
 
+npm init -y
+npm install express fs path
+
 # Install dune & bisect_ppx
 opam install dune bisect_ppx
 # Build all executables
