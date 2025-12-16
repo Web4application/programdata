@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enhanced Dynamic Repo Map</title>
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f7f7f7; margin:0; padding:1rem; }
+  h1 { text-align: center; }
+  ul { list-style: none; padding-left: 1.5rem; }
+  li { cursor: pointer; margin: 0.2rem 0; }
+  li.folder::before { content: "📂 "; }
+  li.file::before { content: "📄 "; }
+  li.file.python::before { content: "🐍 "; }
+  li.file.shell::before { content: "💻 "; }
+  li.file.md::before { content: "📝 "; }
+  li.file.yml::before { content: "📋 "; }
+  .children { display: none; }
+  .active > .children { display: block; }
+  .exe-tag { background: #4caf50; color: white; padding: 0 0.3rem; border-radius: 3px; margin-left: 0.3rem; font-size: 0.8rem; }
+  li.file.selected { background: #e0f7fa; border-radius: 3px; }
+  #controls { text-align: center; margin-bottom: 1rem; }
+  #controls button { margin:0 0.3rem; padding:0.3rem 0.6rem; }
+  #search { padding:0.3rem; width: 200px; margin-left:0.5rem; }
+</style>
+</head>
+<body>
+
+<h1>Enhanced Dynamic Repo Map</h1>
+
+<div id="controls">
+  <button id="expandAll">Expand All</button>
+  <button id="collapseAll">Collapse All</button>
+  <input type="text" id="search" placeholder="Search files/folders...">
+</div>
+
+<ul id="repoTree"></ul>
+
+<script>
+async function fetchTree() {
+  const res = await fetch('/tree');
+  const data = await res.json();
+  const treeEl = document.getElementById('repoTree');
+
+  function getFileTypeClass(name) {
+    const ext = name.split('.').pop();
+    if (['py'].includes(ext)) return 'python';
+    if (['sh', 'bat'].includes(ext)) return 'shell';
+    if (['md'].includes(ext)) return 'md';
+    if (['yml', 'yaml'].includes(ext)) return 'yml';
+    return '';
+  }
+
+  function isExecutable(name) {
+    return ['ml', 'py', 'sh'].includes(name.split('.').pop());
+  }
+
+  function createNode(node) {
+    const li = document.createElement('li');
+    li.textContent = node.name;
+    li.classList.add(node.type);
+    if (node.type === 'file') {
+      const fileTypeClass = getFileTypeClass(node.name);
+      if (fileTypeClass) li.classList.add(fileTypeClass);
+      if (isExecutable(node.name)) {
+        const exe = document.createElement('span');
+        exe.className = 'exe-tag';
+        exe.textContent = node.name.split('.')[0];
+        li.appendChild(exe);
+      }
+      li.addEventListener('click', e => {
+        e.stopPropagation();
+        document.querySelectorAll('li.file').forEach(f => f.classList.remove('selected'));
+        li.classList.add('selected');
+      });
+    } else if (node.type === 'folder' && node.children) {
+      const ul = document.createElement('ul');
+      ul.classList.add('children');
+      node.children.forEach(child => ul.appendChild(createNode(child)));
+      li.appendChild(ul);
+      li.addEventListener('click', e => {
+        e.stopPropagation();
+        li.classList.toggle('active');
+      });
+    }
+    return li;
+  }
+
+  data.forEach(node => treeEl.appendChild(createNode(node)));
+}
+
+// Expand / Collapse all
+document.getElementById('expandAll').onclick = () => {
+  document.querySelectorAll('li.folder').forEach(f => f.classList.add('active'));
+};
+document.getElementById('collapseAll').onclick = () => {
+  document.querySelectorAll('li.folder').forEach(f => f.classList.remove('active'));
+};
+
+// Search / filter
+document.getElementById('search').addEventListener('input', e => {
+  const term = e.target.value.toLowerCase();
+  document.querySelectorAll('#repoTree li').forEach(li => {
+    if (li.textContent.toLowerCase().includes(term)) {
+      li.style.display = '';
+      // show parent folders
+      let parent = li.parentElement;
+      while(parent && parent.id !== 'repoTree') {
+        if (parent.classList.contains('children')) parent.parentElement.classList.add('active');
+        parent = parent.parentElement;
+      }
+    } else {
+      li.style.display = 'none';
+    }
+  });
+});
+
+fetchTree();
+</script>
+
+</body>
+</html>
